@@ -2,6 +2,8 @@ from pydantic_ai import Agent, RunContext
 import mal.pydantic_ai.model as model
 
 import instrument
+import secrets
+
 instrument.init()
 
 
@@ -20,11 +22,7 @@ roulette_agent = Agent(
 async def roulette_wheel(ctx: RunContext[int], square: int) -> str:
     """check if the square is a winner"""
     return 'winner' if square == ctx.deps else 'loser'
-
-
-# run the agent
-import random
-success_number = random.randint(1, 5)
+success_number = secrets.SystemRandom().randint(1, 5)
 print("winning number: ", success_number)
 result = roulette_agent.run_sync('Put my money on square two', deps=success_number)
 print(result.output)
